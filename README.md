@@ -1,5 +1,5 @@
 
-==== ORGANIZACION ====
+==== ORGANIZACION (editar para ver apropiadamente) ====
 
 src/
  ├── app/
