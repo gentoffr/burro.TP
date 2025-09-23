@@ -1,2 +1,17 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+
+// Splash (Android 12 mimic) theme variables.
+// These can be overridden per mode or with prefers-color-scheme if desired.
+:root {
+	--app-splash-bg: #74992e; // keep aligned with capacitor native splash background
+	--app-splash-icon-size: 132px;
+	--app-splash-enter-scale-from: 0.86;
+	--app-splash-icon-rounded: 22%;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--app-splash-bg: #2d2f26;
+	}
+}
