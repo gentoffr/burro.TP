@@ -1,0 +1,11 @@
+<div class="splash-overlay" [class.state-enter]="state==='enter'" [class.state-steady]="state==='steady'" [class.state-exit]="state==='exit'" role="presentation" aria-hidden="true">
+  <div class="splash-center">
+    <!-- Android 12 style centered icon (use adaptive icon asset). Replace src if needed -->
+    <img class="splash-icon"
+         src="assets/splash.png"
+         alt="App icon"
+         draggable="false"
+         (load)="onIconLoad()"
+         (error)="onLogoError($event)" />
+  </div>
+</div>
