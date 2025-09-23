@@ -16,7 +16,6 @@ export class AuthService {
       const { error } = await this.supabase.auth.signInWithPassword({ email, password });
       if (error) {
         throw error;
-        //comentario
       }
     }
 
