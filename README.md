@@ -67,9 +67,14 @@ Esta sera la estructura basica del proyecto, yo voy a inicializarlo asi pero vac
 
 -> Lucas: mesa.model
 
-NOTA: usuario y mesa por lo pronto deben ser esqueleticos, usuario va a seguir el siguiente flujo:
+=== CHECK al 23/09/2025 ===
 
-Ingresa sus credenciales, el auth verifica que exista el usuario, lo trae de la bd y completa la clase usuario con tales datos y aparte lo guarda como sesion actual, 
-lo mismo con las mesas, se buscan en la bd por su identificador y se construyen los objetos a partir de ahi, y se almacenan en la lista-mesas o lista-usuarios.
+-> Juan Cruz: deprecated
+-> Francisco: splash e icono creados y commiteados
+-> Lucas: usuario.model, mesa.model creados, no commiteados
 
-Por lo que por ahora denle a las clases los atributos que corresponden, y quiza el nombre de metodos. DALE Q PAL DOMINGO PROGRESAMOS
+=== TAREAS al 23/09/25 ===
+# Para el jueves 25 tienen que estar completos los siguientes modulos
+
+-> Francisco: auth.service, base de datos relacional en supabase
+-> Lucas: vista login.component, vista register.component, generacion de qrs
