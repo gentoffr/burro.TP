@@ -57,9 +57,9 @@ src/
 
 Esta sera la estructura basica del proyecto, yo voy a inicializarlo asi pero vacío.
 
-=== TAREAS al 19/09/25 === 
+# ===== TAREAS al 19/09/25 =====
 
-# Para el domingo 21/09/25 tienen que estar completos los siguientes modulos
+=== Para el domingo 21/09/25 tienen que estar completos los siguientes modulos ===
 
 -> Francisco: splash, icono de app y auth.service 
 
@@ -67,14 +67,18 @@ Esta sera la estructura basica del proyecto, yo voy a inicializarlo asi pero vac
 
 -> Lucas: mesa.model
 
-=== CHECK al 23/09/2025 ===
+=== Commit al 23/09/2025 ===
 
--> Juan Cruz: deprecated
--> Francisco: splash e icono creados y commiteados
--> Lucas: usuario.model, mesa.model creados, no commiteados
+-> Juan Cruz: deprecated :(
+-> Francisco: splash e icono creados, auth.service y usuario.service creados
+-> Lucas: usuario.model, mesa.model creados
+-> Nacho: implemented!
 
-=== TAREAS al 23/09/25 ===
-# Para el jueves 25 tienen que estar completos los siguientes modulos
+# ===== TAREAS al 23/09/25 =====
 
--> Francisco: auth.service, base de datos relacional en supabase
+Para el jueves 25/09/25 tienen que estar completos los siguientes modulos
+
+-> Francisco: auth.service, usuario.service base de datos relacional en supabase
 -> Lucas: vista login.component, vista register.component, generacion de qrs
+-> Nacho: familiarizarse con el proyecto, auth.guard, token.interceptor
+
