@@ -38,7 +38,11 @@
 
 /* Splash / initial background to match native splash color */
 html, body, app-root, ion-app, ion-content {
-  background-color: #74992e !important;
+  background-image: url('assets/fondo.png') !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-attachment: fixed !important;
   /* Evitar transiciones que causen flash */
   transition: none !important;
 }

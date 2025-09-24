@@ -3,12 +3,12 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { CommonModule } from '@angular/common';
 import { SplashComponent } from './shared/components/splash/splash.component';
-
+import { NavLateralComponent } from './shared/components/nav.lateral/nav.lateral.component';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   standalone: true,
-  imports: [CommonModule, IonApp, IonRouterOutlet, SplashComponent],
+  imports: [CommonModule, IonApp, IonRouterOutlet, SplashComponent, NavLateralComponent],
 })
 export class AppComponent {
   showSplash = true;
