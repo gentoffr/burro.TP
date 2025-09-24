@@ -67,7 +67,7 @@ Esta sera la estructura basica del proyecto, yo voy a inicializarlo asi pero vac
 
 -> Lucas: mesa.model
 
-=== Commit al 23/09/2025 ===
+# Commit 23/09/25 
 
 -> Juan Cruz: deprecated :(
 -> Francisco: splash e icono creados, auth.service y usuario.service creados
@@ -82,3 +82,6 @@ Para el jueves 25/09/25 tienen que estar completos los siguientes modulos
 -> Lucas: vista login.component, vista register.component, generacion de qrs
 -> Nacho: familiarizarse con el proyecto, auth.guard, token.interceptor
 
+# Commit 24/09/25
+
+-> Francisco: fondo cambiado, dashboard de dueño creado, nav lateral creada
