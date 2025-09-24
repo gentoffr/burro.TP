@@ -1,0 +1,13 @@
+ion-item {
+    margin-top: 60px;
+    --background: #212121; // negro grisáceo (como ya tienes)
+    --color: white;
+}
+
+ion-button {
+    margin-top: 15px;
+    margin-left: 10px;
+    --background: #FFCA28; // amarillo cálido
+    --color: black;
+    font-weight: bold;
+}

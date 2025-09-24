@@ -1,3 +1,41 @@
-<p>
-  login works!
-</p>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+        BURRO RESTAURANTE
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <div>
+    <ion-item>
+      <ion-label position="floating">Correo</ion-label>
+      <ion-input [(ngModel)]="email" type="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input [(ngModel)]="contrasena" type="password"></ion-input>
+    </ion-item>
+
+    <ion-button>Ingresar</ion-button>
+    <ion-button>Registrarse</ion-button>
+  </div>
+
+  <br>
+
+  <ion-button>Dueño</ion-button> 
+  <ion-button>Supervisor</ion-button>
+  <br>
+  <ion-button>Maître</ion-button> 
+  <ion-button>Mozo</ion-button>
+  <br>
+  <ion-button>Cocinero</ion-button> 
+  <ion-button>Bartender</ion-button>
+  <br>
+  <ion-button>Cliente Registrado</ion-button>
+
+
+</ion-content>
+

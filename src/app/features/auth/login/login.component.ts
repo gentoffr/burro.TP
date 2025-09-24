@@ -1,14 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  imports: [ IonicModule, FormsModule ],
 })
-export class LoginComponent  implements OnInit {
+export class LoginComponent {
+  email:string = "";
 
-  constructor() { }
+  contrasena:string = "";
 
-  ngOnInit() {}
+  ionViewWillEnter() {
+    this.email = "";
+    this.contrasena = "";
+  }
 
 }
