@@ -85,3 +85,17 @@ Para el jueves 25/09/25 tienen que estar completos los siguientes modulos
 # Commit 24/09/25
 
 -> Francisco: fondo cambiado, dashboard de dueño creado, nav lateral creada
+-> Lucas: vista login, vista register
+
+# Commit 25/09/25
+-> Francisco: ruteo de dashboards, dashboard y nav bar para reflejar sesion actual, manejo de sesiones y creacion de perfiles en usuario.service, migracion a reactive forms,
+   login funcional, registro funcional*
+   *cambiar el registro porque ahora asigna perfil dueño, el registro visible del login debe ser unicamente para clientes registrados y anonimos.
+
+# ==== TAREAS al 25/09/25 ====
+
+Para la entrega del sabado 27/09/25 (hasta 8.19AM) tienen que estar completos los siguientes objetivos
+
+-> Francisco: implementar todos los dashboards posibles
+-> Lucas: lograr componente generador de qr, crud mesa
+-> Nacho: generar tablas en supabase y rellenarlas, push notifications
