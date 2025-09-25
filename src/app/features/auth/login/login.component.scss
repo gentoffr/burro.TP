@@ -1,13 +1,27 @@
+ion-card {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin: 15px;
+}
+
+ion-card-title {
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
 ion-item {
-    margin-top: 60px;
-    --background: #212121; // negro grisáceo (como ya tienes)
-    --color: white;
+    --background: transparent;
+    --border-color: #ffd60a;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+ion-input {
+    color: #fff;
 }
 
 ion-button {
-    margin-top: 15px;
-    margin-left: 10px;
-    --background: #FFCA28; // amarillo cálido
-    --color: black;
     font-weight: bold;
+    margin-top: 10px;
 }

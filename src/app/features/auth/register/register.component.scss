@@ -1,0 +1,26 @@
+ion-card {
+    background: rgba(0, 0, 0, 0.3); /* caja semitransparente sobre el verde */
+    border-radius: 10px;
+}
+
+ion-card-title {
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
+ion-item {
+    --background: transparent;
+    --border-color: #ffd60a;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+ion-input {
+    color: #fff;
+}
+
+.botones{
+    margin-top: 20px;
+    font-weight: bold;
+}
