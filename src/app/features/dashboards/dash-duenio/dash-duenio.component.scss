@@ -1,0 +1,31 @@
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ion-color-primary);
+  color: var(--ion-color-primary-contrast);
+  font-weight: bold;
+  font-size: 1.2rem;
+  border-radius: 50%;
+}
+
+ion-card {
+  margin: 16px;
+}
+
+ion-item {
+  --padding-start: 0;
+}
+
+h2 {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+p {
+  margin: 2px 0;
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+}

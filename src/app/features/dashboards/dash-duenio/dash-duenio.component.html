@@ -3,6 +3,43 @@
 		<ion-buttons slot="start">
 			<ion-menu-button></ion-menu-button>
 		</ion-buttons>
+		<ion-title>Dashboard Dueño</ion-title>
 	</ion-toolbar>
-	<!-- Sin título ni más contenido, solo el botón para abrir la nav -->
 </ion-header>
+
+<ion-content>
+	<!-- Información del Usuario Actual -->
+	<div *ngIf="currentUser$ | async as usuario; else noUsuario">
+		<ion-card>
+			<ion-card-header>
+				<ion-card-title>Bienvenido, {{ usuario.nombreCompleto }}</ion-card-title>
+			</ion-card-header>
+			<ion-card-content>
+				<ion-item lines="none">
+					<ion-avatar slot="start" *ngIf="usuario.tieneFoto">
+						<img [src]="usuario.foto_url" [alt]="usuario.nombreCompleto">
+					</ion-avatar>
+					<ion-avatar slot="start" *ngIf="!usuario.tieneFoto">
+						<div class="avatar-placeholder">
+							{{ usuario.nombre.charAt(0) }}{{ usuario.apellido.charAt(0) }}
+						</div>
+					</ion-avatar>
+					<ion-label>
+						<h2>{{ usuario.nombreCompleto }}</h2>
+						<p>{{ usuario.email }}</p>
+						<p>Perfil: {{ usuario.perfil }}</p>
+						<p>Documento: {{ usuario.documento }}</p>
+					</ion-label>
+				</ion-item>
+			</ion-card-content>
+		</ion-card>
+	</div>
+
+	<ng-template #noUsuario>
+		<ion-card>
+			<ion-card-content>
+				<p>Cargando información del usuario...</p>
+			</ion-card-content>
+		</ion-card>
+	</ng-template>
+</ion-content>
