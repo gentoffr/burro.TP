@@ -1,11 +1,11 @@
 export enum perfil {
-    Duenio = 'Duenio',
-    Supervisor = 'Supervisor',
-    Maitre = 'Maitre',
-    Mozo = 'Mozo',
-    Cocinero = 'Cocinero',
-    Bartender = 'Bartender',
-    ClienteRegistrado = 'ClienteRegistrado',
+    Duenio = 'duenio',
+    Supervisor = 'supervisor',
+    Maitre = 'maitre',
+    Mozo = 'mozo',
+    Cocinero = 'cocinero',
+    Bartender = 'bartender',
+    ClienteRegistrado = 'cliente',
     ClienteAnonimo = 'ClienteAnonimo'
 }
 

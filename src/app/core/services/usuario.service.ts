@@ -4,16 +4,8 @@ import { AuthService } from './auth.service';
 import { Usuario, perfil } from '../models/usuario.model';
 
 // Interface para registro
-export interface RegisterData {
-  email: string;
-  password: string;
-  nombre: string;
-  apellido: string;
-  documento: string;
-}
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsuarioService {
   // Estado de sesión
@@ -49,28 +41,65 @@ export class UsuarioService {
    * Iniciar sesión - usa AuthService y construye Usuario
    */
   async signIn(email: string, password: string): Promise<Usuario> {
-    const { data, error } = await this.authService.signIn(email, password);
+    console.log('[USUARIO-SERVICE] Iniciando signIn con email:', email);
+    
+    try {
+      const { data, error } = await this.authService.signIn(email, password);
+      console.log('[USUARIO-SERVICE] Respuesta de authService:', JSON.stringify({ 
+        hasData: !!data, 
+        hasUser: !!data?.user, 
+        userId: data?.user?.id,
+        hasError: !!error,
+        errorMessage: error?.message 
+      }));
 
-    if (error) throw error;
-    if (!data.user) throw new Error('No user returned');
+      if (error) {
+        console.error('[USUARIO-SERVICE] Error de autenticación:', error);
+        throw error;
+      }
+      
+      if (!data.user) {
+        console.error('[USUARIO-SERVICE] No se retornó usuario');
+        throw new Error('No user returned');
+      }
 
-    // Cargar el perfil de forma determinística usando el id retornado
-    await this.loadUserProfile(data.user.id);
+      console.log('[USUARIO-SERVICE] Usuario autenticado, cargando perfil para ID:', data.user.id);
+      
+      // Cargar el perfil de forma determinística usando el id retornado
+      await this.loadUserProfile(data.user.id);
 
-    const currentUser = this.currentUserSubject.value;
-    if (!currentUser) throw new Error('Failed to load user profile');
+      const currentUser = this.currentUserSubject.value;
+      console.log('[USUARIO-SERVICE] Usuario cargado:', JSON.stringify({
+        hasUser: !!currentUser,
+        id: currentUser?.id,
+        nombre: currentUser?.nombre,
+        perfil: currentUser?.perfil
+      }));
+      
+      if (!currentUser) {
+        console.error('[USUARIO-SERVICE] Fallo al cargar perfil de usuario');
+        throw new Error('Failed to load user profile');
+      }
 
-    return currentUser;
+      console.log('[USUARIO-SERVICE] SignIn exitoso');
+      return currentUser;
+    } catch (error) {
+      console.error('[USUARIO-SERVICE] Error en signIn:', error);
+      throw error;
+    }
   }
 
   /**
    * Registrar usuario - usa AuthService y crea perfil
    */
-  async signUp(userData: RegisterData): Promise<Usuario> {
+  async signUp(userData: Usuario, password: string): Promise<Usuario> {
     // 1. Registrar en auth usando AuthService
-    const { data, error } = await this.authService.signUp(userData.email, userData.password);
+    const { data, error } = await this.authService.signUp(
+      userData.email,
+      password
+    );
 
-    if (error) throw error;
+    if (error) throw new Error("soy gay");
     if (!data.user) throw new Error('No user returned from signup');
 
     // 2. Crear perfil en public.profiles
@@ -80,13 +109,9 @@ export class UsuarioService {
       nombre: userData.nombre,
       apellido: userData.apellido,
       documento: userData.documento,
-      perfil: perfil.ClienteRegistrado
+      perfil: userData.perfil,
+      foto_url: userData.foto_url
     });
-
-    // 3. Establecer usuario actual
-    this.currentUserSubject.next(usuario);
-    this.isAuthenticatedSubject.next(true);
-
     return usuario;
   }
 
@@ -119,6 +144,8 @@ export class UsuarioService {
    * Cargar perfil del usuario desde public.profiles
    */
   private async loadUserProfile(userId: string): Promise<void> {
+    console.log('[USUARIO-SERVICE] Cargando perfil para usuario ID:', userId);
+    
     try {
       const { data, error } = await this.authService.client
         .from('profiles')
@@ -126,16 +153,41 @@ export class UsuarioService {
         .eq('id', userId)
         .single();
 
+      console.log('[USUARIO-SERVICE] Respuesta de profiles:', JSON.stringify({
+        hasData: !!data,
+        hasError: !!error,
+        errorMessage: error?.message,
+        userEmail: data?.email,
+        userPerfil: data?.perfil
+      }));
+
       if (error) {
-        console.error('Error loading profile:', error);
-        return;
+        console.error('[USUARIO-SERVICE] Error loading profile:', error);
+        throw new Error('Error loading profile: ' + error.message);
       }
 
+      if (!data) {
+        console.error('[USUARIO-SERVICE] No se encontró perfil para el usuario');
+        throw new Error('User profile not found');
+      }
+
+      console.log('[USUARIO-SERVICE] Creando usuario desde datos de Supabase...');
       const usuario = Usuario.fromSupabase(data);
+      console.log('[USUARIO-SERVICE] Usuario creado:', JSON.stringify({
+        id: usuario.id,
+        nombre: usuario.nombre,
+        email: usuario.email,
+        perfil: usuario.perfil
+      }));
+      
       this.currentUserSubject.next(usuario);
       this.isAuthenticatedSubject.next(true);
+      
+      console.log('[USUARIO-SERVICE] Estado actualizado correctamente');
+      
     } catch (error) {
-      console.error('Error in loadUserProfile:', error);
+      console.error('[USUARIO-SERVICE] Error in loadUserProfile:', error);
+      throw error; // Re-lanzar el error para que se propague
     }
   }
 
@@ -147,15 +199,16 @@ export class UsuarioService {
     email: string;
     nombre: string;
     apellido: string;
-    documento: string;
+    documento: number;
     perfil?: perfil;
+    foto_url?: string;
   }): Promise<Usuario> {
     const profileData = {
       ...userData,
-      perfil: userData.perfil || perfil.ClienteRegistrado,
-      foto_url: null,
+      perfil: userData.perfil,
+      foto_url: userData.foto_url,
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     };
 
     const { data, error } = await this.authService.client
@@ -164,7 +217,7 @@ export class UsuarioService {
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) throw new Error('Error creating profile: ' + error.message + error.details);
     return Usuario.fromSupabase(data);
   }
 }
