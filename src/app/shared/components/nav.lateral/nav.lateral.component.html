@@ -8,6 +8,9 @@
   </ion-header>
 
   <ion-content>
+    <!-- Slot para información de usuario -->
+    <ng-content select="[user-info]"></ng-content>
+    
     <!-- Project your menu items here -->
     <ng-content></ng-content>
   </ion-content>

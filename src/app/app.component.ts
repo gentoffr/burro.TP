@@ -1,19 +1,34 @@
-import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { Component, OnInit } from '@angular/core';
+import { IonApp, IonRouterOutlet, IonItem, IonAvatar, IonLabel, IonList, IonIcon } from '@ionic/angular/standalone';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { CommonModule } from '@angular/common';
 import { SplashComponent } from './shared/components/splash/splash.component';
 import { NavLateralComponent } from './shared/components/nav.lateral/nav.lateral.component';
+import { UsuarioService } from './core/services/usuario.service';
+import { Usuario } from './core/models/usuario.model';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   standalone: true,
-  imports: [CommonModule, IonApp, IonRouterOutlet, SplashComponent, NavLateralComponent],
+  imports: [CommonModule, IonApp, IonRouterOutlet, SplashComponent, NavLateralComponent, IonItem, IonAvatar, IonLabel, IonList, IonIcon],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   showSplash = true;
-  constructor() {
+  currentUser$: Observable<Usuario | null>;
+
+  constructor(private usuarioService: UsuarioService, private router: Router) {
     this.configureStatusBar();
+    this.currentUser$ = this.usuarioService.currentUser$;
+  }
+
+  ngOnInit() {
+    // Opcional: log para debug
+    this.currentUser$.subscribe(user => {
+      console.log('Usuario actual en app component:', user);
+    });
   }
 
   private async configureStatusBar() {
@@ -32,5 +47,14 @@ export class AppComponent {
 
   onSplashDone() {
     this.showSplash = false;
+  }
+
+  async logout() {
+    try {
+      await this.usuarioService.signOut();
+      this.router.navigateByUrl('/login');
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
   }
 }
