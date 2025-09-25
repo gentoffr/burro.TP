@@ -5,38 +5,70 @@
     </ion-card-header>
 
     <ion-card-content>
-      <ion-item>
-        <ion-label position="floating">Nombre</ion-label>
-        <ion-input [(ngModel)]="nombre" type="text"></ion-input>
-      </ion-item>
+      <form [formGroup]="registerForm">
+        <ion-item>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input formControlName="nombre" type="text"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Apellido</ion-label>
-        <ion-input [(ngModel)]="apellido" type="text"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Apellido</ion-label>
+          <ion-input formControlName="apellido" type="text"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Número de Documento</ion-label>
-        <ion-input [(ngModel)]="numeroDocumento" type="number"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Número de Documento</ion-label>
+          <ion-input
+            formControlName="numeroDocumento"
+            type="number"
+          ></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Correo</ion-label>
-        <ion-input [(ngModel)]="correo" type="email"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Correo</ion-label>
+          <ion-input formControlName="correo" type="email"></ion-input>
+        </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Contraseña</ion-label>
-        <ion-input [(ngModel)]="contrasena" type="password"></ion-input>
-      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Contraseña</ion-label>
+          <ion-input formControlName="contrasena" type="password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Foto de cliente</ion-label>
+          <br />
+          <ion-button (click)="abrirCamara()">
+            <ion-icon name="camera"></ion-icon>
+            Tomar Foto
+          </ion-button>
 
-      <ion-item>
-        <ion-label position="floating">Foto de cliente</ion-label>
-        <br>
-        <input [(ngModel)]="foto" type="file"/>
-      </ion-item>
+          <!-- Mensaje de confirmación cuando se toma la foto -->
+          <div *ngIf="foto" class="foto-confirmacion">
+            <ion-text color="success">
+              <p>✓ Foto registrada correctamente</p>
+            </ion-text>
 
-      <ion-button expand="block" color="warning" class="botones" (click)="registrarse()">
+            <div class="photo-preview" *ngIf="photoPreview">
+              <img
+                [src]="photoPreview"
+                alt="Vista previa"
+                style="
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 8px;
+                  object-fit: cover;
+                "
+              />
+            </div>
+          </div>
+        </ion-item>
+      </form>
+
+      <ion-button
+        expand="block"
+        color="warning"
+        class="botones"
+        (click)="registrarse()"
+      >
         REGISTRARSE
       </ion-button>
 

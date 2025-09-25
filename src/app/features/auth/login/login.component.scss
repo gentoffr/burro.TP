@@ -25,3 +25,22 @@ ion-button {
     font-weight: bold;
     margin-top: 10px;
 }
+
+// Estilos para toasts personalizados
+::ng-deep .custom-toast {
+    --z-index: 999999 !important;
+    
+    .toast-wrapper {
+        z-index: 999999 !important;
+    }
+    
+    .toast-container {
+        z-index: 999999 !important;
+        top: 20px !important;
+    }
+    
+    .toast-message {
+        font-weight: 500;
+        font-size: 14px;
+    }
+}

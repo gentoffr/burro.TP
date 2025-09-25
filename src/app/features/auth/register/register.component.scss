@@ -24,3 +24,18 @@ ion-input {
     margin-top: 20px;
     font-weight: bold;
 }
+
+/* Estilo para el mensaje de confirmación de foto */
+.foto-confirmacion {
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    background: rgba(40, 167, 69, 0.1);
+    border-left: 3px solid var(--ion-color-success);
+    
+    p {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 500;
+    }
+}
