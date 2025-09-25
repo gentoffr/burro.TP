@@ -102,3 +102,45 @@ ion-header, ion-footer { background: var(--ion-background-color, #74992e); }
   padding-left: var(--safe-area-left) !important;
   padding-right: var(--safe-area-right) !important;
 }
+
+/* Estilos para la información del usuario en el nav lateral */
+.user-info-section {
+  padding: 16px 0;
+  
+  .avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--ion-color-primary);
+    color: var(--ion-color-primary-contrast);
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 50%;
+  }
+
+  ion-item {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --min-height: 60px;
+  }
+
+  h3 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  p {
+    margin: 4px 0 0 0;
+    font-size: 0.85rem;
+    color: var(--ion-color-medium);
+  }
+
+  .divider {
+    margin: 16px 0 0 0;
+    border: none;
+    border-bottom: 1px solid var(--ion-color-light);
+  }
+}
