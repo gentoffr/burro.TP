@@ -44,7 +44,11 @@ export class UsuarioService {
     console.log('[USUARIO-SERVICE] Iniciando signIn con email:', email);
     
     try {
-      const { data, error } = await this.authService.signIn(email, password);
+      const { data, error } = await this.authService.supabaseClient.auth.admin.createUser({
+        email,
+        password,
+        email_confirm: true
+      });
       console.log('[USUARIO-SERVICE] Respuesta de authService:', JSON.stringify({ 
         hasData: !!data, 
         hasUser: !!data?.user, 

@@ -1,4 +1,5 @@
 <ion-app>
+  <ion-toast></ion-toast>
   <app-nav-lateral [contentId]="'main-content'" [title]="'Menú'">
     <!-- Información del usuario en la navegación -->
     <div user-info>
@@ -21,35 +22,33 @@
       </div>
     </div>
 
-    <!-- Elementos de menú -->
+    <!-- Elementos de menú dinámicos según el perfil -->
     <ion-list>
-      <ion-item button>
-        <ion-icon name="home-outline" slot="start"></ion-icon>
-        <ion-label>Inicio</ion-label>
-      </ion-item>
-      <ion-item button>
-        <ion-icon name="people-outline" slot="start"></ion-icon>
-        <ion-label>Usuarios</ion-label>
-      </ion-item>
-      <ion-item button>
-        <ion-icon name="restaurant-outline" slot="start"></ion-icon>
-        <ion-label>Mesas</ion-label>
-      </ion-item>
-      <ion-item button>
-        <ion-icon name="receipt-outline" slot="start"></ion-icon>
-        <ion-label>Pedidos</ion-label>
-      </ion-item>
-      <ion-item button>
-        <ion-icon name="settings-outline" slot="start"></ion-icon>
-        <ion-label>Configuración</ion-label>
-      </ion-item>
-      <ion-item button (click)="logout()">
-        <ion-icon name="log-out-outline" slot="start"></ion-icon>
-        <ion-label>Cerrar Sesión</ion-label>
-      </ion-item>
+      <ng-container *ngIf="currentUser$ | async as usuario">
+        <ion-item 
+          *ngFor="let menuItem of getMenuItems(usuario.perfil)" 
+          button 
+          menuClose
+          (click)="navigateToRoute(menuItem.route)">
+          <ion-icon [name]="menuItem.icon" slot="start"></ion-icon>
+          <ion-label>{{ menuItem.label }}</ion-label>
+        </ion-item>
+      </ng-container>
+      
+      <!-- Botón de cerrar sesión (siempre visible para usuarios autenticados) -->
+      <ng-container *ngIf="currentUser$ | async">
+        <hr class="divider">
+        <ion-item button menuClose (click)="logout()">
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          <ion-label>Cerrar Sesión</ion-label>
+        </ion-item>
+      </ng-container>
     </ion-list>
   </app-nav-lateral>
   
   <ion-router-outlet id="main-content"></ion-router-outlet>
   <app-splash *ngIf="showSplash" (done)="onSplashDone()"></app-splash>
+  
+  <!-- Toast para notificaciones globales -->
+
 </ion-app>

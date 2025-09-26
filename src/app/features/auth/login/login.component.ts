@@ -221,5 +221,10 @@ export class LoginComponent implements OnInit {
     });
     await alert.present();
   }
-
+  llenarDuenio() {
+    this.loginForm.setValue({
+      correo: 'franargento23@gmail.com',
+      contrasena: 'Francisco'
+    });
+  }
 }

@@ -1,7 +1,7 @@
 <ion-content class="registro-form">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>REGISTRO DE CLIENTE</ion-card-title>
+      <ion-card-title>REGISTRO DE EMPLEADO</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
@@ -30,6 +30,17 @@
         </ion-item>
 
         <ion-item>
+          <ion-label position="floating">Perfil del Empleado</ion-label>
+          <ion-select formControlName="perfil" placeholder="Selecciona un perfil">
+            <ion-select-option value="supervisor">Supervisor</ion-select-option>
+            <ion-select-option value="maitre">Maitre</ion-select-option>
+            <ion-select-option value="mozo">Mozo</ion-select-option>
+            <ion-select-option value="cocinero">Cocinero</ion-select-option>
+            <ion-select-option value="bartender">Bartender</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
           <ion-label position="floating">Contraseña</ion-label>
           <ion-input formControlName="contrasena" type="password"></ion-input>
         </ion-item>
@@ -40,7 +51,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-label position="floating">Foto del cliente</ion-label>
+          <ion-label position="floating">Foto del empleado</ion-label>
           <br />
           <ion-button (click)="abrirCamara()">
             <ion-icon name="camera"></ion-icon>

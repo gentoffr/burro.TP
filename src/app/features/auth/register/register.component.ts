@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
@@ -15,6 +15,8 @@ import {
   IonCardContent,
   IonIcon,
   IonText,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
@@ -39,12 +41,15 @@ import { perfil, Usuario } from 'src/app/core/models/usuario.model';
     IonCardContent,
     IonIcon,
     IonText,
+    IonSelect,
+    IonSelectOption,
   ],
 })
-export class RegisterComponent {
+export class RegisterComponent  {
   photoPreview: string | ArrayBuffer | null = null;
   foto: File | null = null;
   user: Usuario | null = null;
+  
   // Reactive Form
   registerForm = this.fb.group({
     nombre: ['', [Validators.required, Validators.minLength(2)]],
@@ -52,7 +57,19 @@ export class RegisterComponent {
     numeroDocumento: [null, [Validators.required, Validators.min(1)]],
     correo: ['', [Validators.required, Validators.email]],
     contrasena: ['', [Validators.required, Validators.minLength(6)]],
-  });
+    confirmarContrasena: ['', [Validators.required]],
+  }, { validators: this.passwordMatchValidator });
+
+  // Validador personalizado para confirmar contraseña
+  passwordMatchValidator(form: AbstractControl) {
+    const password = form.get('contrasena')?.value;
+    const confirmPassword = form.get('confirmarContrasena')?.value;
+    
+    if (password && confirmPassword && password !== confirmPassword) {
+      return { passwordMismatch: true };
+    }
+    return null;
+  }
 
   ionViewWillEnter() {
     this.registerForm.reset();
@@ -61,10 +78,10 @@ export class RegisterComponent {
   }
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private toastController: ToastController,
-    private usuarioService: UsuarioService
+    protected fb: FormBuilder,
+    protected router: Router,
+    protected toastController: ToastController,
+    protected usuarioService: UsuarioService
   ) {}
 
   registrarse() {
@@ -79,27 +96,33 @@ export class RegisterComponent {
       return;
     }
 
+    // Validación adicional de contraseñas
+    if (this.registerForm.errors?.['passwordMismatch']) {
+      this.mostrarToast('Las contraseñas no coinciden.');
+      return;
+    }
+
     // Si todo está válido, proceder con el registro
     const formData = this.registerForm.value;
-    console.log('Registrando usuario:', formData);
+    console.log('Registrando cliente:', formData);
 
-    // TODO: Integrar con UsuarioService
-    this.user = this.crearUsuario(this.photoPreview as string);
+    // Crear usuario con perfil específico
+    this.user = this.crearUsuario();
     this.usuarioService
       .signUp(this.user, formData.contrasena!)
       .then(() => {
-        this.mostrarToast('¡Registro exitoso!', 'success');
-        this.router.navigateByUrl('/login');
+        this.mostrarToast('Peticion de registro enviada', 'success');
+        this.navegar();
       })
       .catch((error) => {
         console.log('Error completo:', error);
         console.log('Mensaje:', error.message);
-        console.log('Detalles:', error.details); // ← Importante
-        this.mostrarToast('Error al registrar el usuario', 'danger');
+        console.log('Detalles:', error.details);
+        this.mostrarToast('Error al registrar el cliente', 'danger');
       });
   }
 
-  private mostrarErroresValidacion() {
+  protected mostrarErroresValidacion() {
     const form = this.registerForm;
 
     if (form.get('nombre')?.invalid) {
@@ -124,6 +147,16 @@ export class RegisterComponent {
 
     if (form.get('contrasena')?.invalid) {
       this.mostrarToast('La contraseña debe tener al menos 6 caracteres.');
+      return;
+    }
+
+    if (form.get('confirmarContrasena')?.invalid) {
+      this.mostrarToast('Confirma la contraseña.');
+      return;
+    }
+
+    if (form.errors?.['passwordMismatch']) {
+      this.mostrarToast('Las contraseñas no coinciden.');
       return;
     }
 
@@ -161,7 +194,7 @@ export class RegisterComponent {
       console.log('Error accediendo a la cámara:', error);
     }
   }
-  private dataUrlToFile(dataUrl: string, filename: string): File {
+  protected dataUrlToFile(dataUrl: string, filename: string): File {
     const arr = dataUrl.split(',');
     const mime = arr[0].match(/:(.*?);/)?.[1];
     const bstr = atob(arr[1]);
@@ -174,15 +207,21 @@ export class RegisterComponent {
 
     return new File([u8arr], filename, { type: mime });
   }
-  private crearUsuario(foto: string): Usuario {
+  protected crearUsuario(): Usuario {
+    // Mapear el valor del formulario al enum de perfil
+    
     return new Usuario(
       '', // id se genera en el backend
       this.registerForm.value.nombre!,
       this.registerForm.value.apellido!,
       this.registerForm.value.numeroDocumento!,
       this.registerForm.value.correo!,
-      perfil.Duenio,
-      foto // foto_url se puede actualizar luego
+      perfil.ClienteRegistrado,
+      this.photoPreview as string // foto_url se puede actualizar luego
     );
+  }
+
+  async navegar() {
+    await this.router.navigateByUrl("/login");
   }
 }

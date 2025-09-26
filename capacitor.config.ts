@@ -4,6 +4,9 @@ const config: CapacitorConfig = {
   appId: 'com.burro.app',
   appName: 'burro',
   webDir: 'www',
+  server: {
+    androidScheme: 'https'
+  },
   
   plugins: {
     StatusBar: {

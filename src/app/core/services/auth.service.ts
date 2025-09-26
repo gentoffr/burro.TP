@@ -24,7 +24,7 @@ export class AuthService {
   public estadoAuth$ = this.estadoAuthSubject.asObservable();
   private inicializado = false;
 
-  constructor(private supabaseClient: SupabaseClientService) {
+  constructor(public supabaseClient: SupabaseClientService) {
     this.supabase = this.supabaseClient.client;
     this.inicializarAuth();
   }

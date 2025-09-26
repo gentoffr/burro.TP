@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonMenu,
@@ -31,6 +31,9 @@ export class NavLateralComponent  {
   // Identificador del menú para controlarlo vía MenuController
   @Input() menuId = 'main-menu';
 
+  // Output para notificar cuando se hace clic en un elemento del menú
+  @Output() itemClicked = new EventEmitter<void>();
+
   constructor(private menuCtrl: MenuController) { }
 
   // API mínima para controlar el menú desde fuera si se necesita
@@ -38,5 +41,11 @@ export class NavLateralComponent  {
   close() { return this.menuCtrl.close(this.menuId); }
   toggle() { return this.menuCtrl.toggle(this.menuId); }
   isOpen() { return this.menuCtrl.isOpen(this.menuId); }
+
+  // Método para cerrar el menú y emitir evento
+  onItemClick() {
+    this.itemClicked.emit();
+    this.close();
+  }
 
 }
