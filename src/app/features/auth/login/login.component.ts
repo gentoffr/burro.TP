@@ -227,4 +227,18 @@ export class LoginComponent implements OnInit {
       contrasena: 'Francisco'
     });
   }
+
+  llenarSupervisor() {
+    this.loginForm.setValue({
+      correo: 'lucas.rodriguez.lr03@gmail.com',
+      contrasena: 'soycrack'
+    });
+  }
+
+  llenarMaitre() {
+    this.loginForm.setValue({
+      correo: 'frawnki3007@gmail.com',
+      contrasena: 'Francisco'
+    });
+  }
 }

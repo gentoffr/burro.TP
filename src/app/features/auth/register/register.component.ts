@@ -22,6 +22,8 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { UsuarioService } from 'src/app/core/services/usuario.service';
 import { perfil, Usuario } from 'src/app/core/models/usuario.model';
+import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
+
 
 @Component({
   selector: 'app-register',
@@ -49,12 +51,14 @@ export class RegisterComponent  {
   photoPreview: string | ArrayBuffer | null = null;
   foto: File | null = null;
   user: Usuario | null = null;
+  isSupported = false;
+  barcodes: Barcode[] = [];
   
   // Reactive Form
   registerForm = this.fb.group({
     nombre: ['', [Validators.required, Validators.minLength(2)]],
     apellido: ['', [Validators.required, Validators.minLength(2)]],
-    numeroDocumento: [null, [Validators.required, Validators.min(1)]],
+    numeroDocumento: [null as number | null, [Validators.required, Validators.min(1)]],
     correo: ['', [Validators.required, Validators.email]],
     contrasena: ['', [Validators.required, Validators.minLength(6)]],
     confirmarContrasena: ['', [Validators.required]],
@@ -81,7 +85,8 @@ export class RegisterComponent  {
     protected fb: FormBuilder,
     protected router: Router,
     protected toastController: ToastController,
-    protected usuarioService: UsuarioService
+    protected usuarioService: UsuarioService,
+    //protected barcodeScanner: BarcodeScanner
   ) {}
 
   registrarse() {
@@ -220,6 +225,44 @@ export class RegisterComponent  {
       this.photoPreview as string // foto_url se puede actualizar luego
     );
   }
+
+  async escanear(): Promise<void> {
+  try {
+    // Pedir permisos
+    const granted = await this.requestPermissions();
+    if (!granted) {
+      this.mostrarToast('Permiso de cámara denegado.');
+      return;
+    }
+
+    // Escanear
+    const { barcodes } = await BarcodeScanner.scan();
+
+    if (barcodes.length > 0) {
+      const codigo = Number(barcodes[0].rawValue ?? '');
+      console.log('Código escaneado:', codigo);
+
+      // 👉 ejemplo: rellenar el campo numeroDocumento
+      if (!isNaN(codigo)) {
+        this.registerForm.patchValue({ numeroDocumento: codigo });
+      } else {
+        this.mostrarToast('El QR no contiene un número válido.');
+      }
+
+      this.mostrarToast('Código escaneado con éxito', 'success');
+    } else {
+      this.mostrarToast('No se detectó ningún código.');
+    }
+  } catch (err) {
+    console.error('Error al escanear:', err);
+    this.mostrarToast('Error al escanear QR.');
+  }
+}
+
+private async requestPermissions(): Promise<boolean> {
+  const { camera } = await BarcodeScanner.requestPermissions();
+  return camera === 'granted' || camera === 'limited';
+}
 
   async navegar() {
     await this.router.navigateByUrl("/login");
