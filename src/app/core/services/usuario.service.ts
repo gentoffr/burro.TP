@@ -44,11 +44,10 @@ export class UsuarioService {
     console.log('[USUARIO-SERVICE] Iniciando signIn con email:', email);
     
     try {
-      const { data, error } = await this.authService.supabaseClient.auth.admin.createUser({
+      const { data, error } = await this.authService.signIn(
         email,
         password,
-        email_confirm: true
-      });
+      );
       console.log('[USUARIO-SERVICE] Respuesta de authService:', JSON.stringify({ 
         hasData: !!data, 
         hasUser: !!data?.user, 
@@ -98,10 +97,11 @@ export class UsuarioService {
    */
   async signUp(userData: Usuario, password: string): Promise<Usuario> {
     // 1. Registrar en auth usando AuthService
-    const { data, error } = await this.authService.signUp(
-      userData.email,
-      password
-    );
+    const { data, error } = await this.authService.supabaseClient.auth.admin.createUser({
+      email: userData.email,
+      password: password,
+      email_confirm: true
+    });
 
     if (error) throw new Error("soy gay");
     if (!data.user) throw new Error('No user returned from signup');
