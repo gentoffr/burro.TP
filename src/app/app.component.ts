@@ -213,7 +213,7 @@ export class AppComponent implements OnInit {
       // Cerrar menú primero
       await this.menuCtrl.close();
       await this.usuarioService.signOut();
-      this.router.navigateByUrl('/dashboard/duenio');
+      this.router.navigateByUrl('/login');
     } catch (error) {
       // Error al cerrar sesión
     }
